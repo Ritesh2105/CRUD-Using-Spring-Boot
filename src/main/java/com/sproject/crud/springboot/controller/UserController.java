@@ -9,7 +9,7 @@ public class UserController {
     private Map<Long, User> userMap = new HashMap<>();
     private long currentId = 1;
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public List<User> getAllUsers(){
         return new ArrayList<>(userMap.values());
     }
@@ -19,21 +19,21 @@ public class UserController {
         return userMap.get(id);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public User createUser(@RequestBody User user){
         user.setId(currentId++);
         userMap.put(user.getId(),user);
         return user;
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user){
         user.setId(id);
         userMap.put(id, user);
         return user;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public  String deleteuser(@PathVariable Long id, @RequestBody User user){
         user.setId(id);
         userMap.remove(id);
