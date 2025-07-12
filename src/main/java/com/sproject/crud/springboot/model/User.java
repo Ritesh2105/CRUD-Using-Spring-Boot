@@ -1,8 +1,12 @@
 package com.sproject.crud.springboot.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 
+@Entity
 public class User {
+    @Id
     private long id;
     @NotBlank(message = "Name is mandatory")
     private String name;
