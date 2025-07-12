@@ -1,0 +1,54 @@
+package com.sproject.crud.springboot.controller;
+import com.sproject.crud.springboot.model.User;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    private Map<Long, User> userMap = new HashMap<>();
+    private long currentId = 1;
+
+    @GetMapping("/users")
+    public List<User> getAllUsers(){
+        return new ArrayList<>(userMap.values());
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id){
+        return userMap.get(id);
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user){
+        user.setId(currentId++);
+        userMap.put(user.getId(),user);
+        return user;
+    }
+
+    @PutMapping
+    public User updateUser(@PathVariable Long id, @RequestBody User user){
+        user.setId(id);
+        userMap.put(id, user);
+        return user;
+    }
+
+    @DeleteMapping
+    public  String deleteuser(@PathVariable Long id, @RequestBody User user){
+        user.setId(id);
+        userMap.remove(id);
+        return "User is deleted";
+    }
+
+    @PatchMapping("/{id}")
+    public User partialUpdateUser(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        User user = userMap.get(id);
+        if (user != null) {
+            updates.forEach((key, value) -> {
+                if (key.equals("name")) user.setName((String) value);
+                if (key.equals("email")) user.setEmail((String) value);
+            });
+        }
+        return user;
+    }
+}
