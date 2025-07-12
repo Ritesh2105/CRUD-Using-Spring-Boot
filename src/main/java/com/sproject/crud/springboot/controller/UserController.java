@@ -38,8 +38,8 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<User>  updateUser(@PathVariable Long id, @Valid @RequestBody User userDetail){
         return userRepository.findById(id).map(user -> {
-            userDetail.setName(user.getName());
-            userDetail.setEmail(user.getEmail());
+            user.setName(userDetail.getName());
+            user.setEmail(userDetail.getEmail());
             User updatedUser = userRepository.save(user);
             return ResponseEntity.ok(updatedUser);
         }).orElse(ResponseEntity.notFound().build());
